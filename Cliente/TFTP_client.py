@@ -140,10 +140,10 @@ def upload_file(filename):
     sock.close()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3 or (sys.argv[1].lower() == "download" and len(sys.argv) > 4):
         print("Uso:")
         print("  python tftp_client.py upload <archivo>")
-        print("  python tftp_client.py download <archivo>")
+        print("  python tftp_client.py download <archivo> [<ruta_destino>]")
         sys.exit(1)
 
     action = sys.argv[1].lower()
@@ -152,6 +152,7 @@ if __name__ == "__main__":
     if action == "upload":
         upload_file(filename)
     elif action == "download":
-        download_file(filename)
+        destination_path = sys.argv[3] if len(sys.argv) == 4 else None  
+        download_file(filename, destination_path) 
     else:
         print("Acción desconocida:", action)
